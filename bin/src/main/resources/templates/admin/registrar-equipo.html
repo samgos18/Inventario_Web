@@ -1,0 +1,191 @@
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/head :: head">
+</head>
+<body class="sb-nav-fixed">
+	<nav th:replace="layout/nav :: nav-bar"></nav>
+	<div id="layoutSidenav">
+		<div sec:authorize="hasRole('ROLE_USUARIO')" th:replace="layout/sidebar :: sidebaruser"></div>
+		<div sec:authorize="hasRole('ROLE_ADMIN')" th:replace="layout/sidebar :: sidebar"></div>
+		<div id="layoutSidenav_content">
+			<main>
+				<div id="layoutAuthentication">
+					<div id="layoutAuthentication_content">
+						<main>
+							<div class="container">
+								<div class="row justify-content-center">
+									<div class="col-lg-7">
+										<div class="card shadow-lg border-0 rounded-lg mt-5">
+											<div class="card-header">
+												<h3 class="text-center font-weight-light my-4">Registrar
+													Equipo o Compra</h3>
+											</div>
+											<div class="card-body">
+												<form th:action="@{ ${url==null}?'/admin/save-equipo' : ${url}}" th:object="${equipo}" method="post" enctype="multipart/form-data">
+													<div class="form-row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="small mb-1" for="inputFirstName">Nombre
+																	del Equipo</label> <input class="form-control py-4"
+																	id="nombre" th:field="*{nombre}" type="text"
+																	placeholder="Ingrese el nombre" />
+																	 <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="small mb-1" for="marca">Marca del equipo</label>
+																<input list="marcas" class="form-control py-4"
+																	name="marca" th:fiel="*{marca}" id="marca">
+
+																<datalist id="marcas" >
+																	<option th:each="u :${marcas}"  th:value="${u.nombre}">
+																</datalist>
+																	
+																	<div class="alert alert-danger" th:if="${mar!=null}" th:text="${mar}"></div>
+																 <div class="text-danger" th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}"></div>
+																
+																
+															</div>
+														</div>
+													</div>
+
+													<div class="form-row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="small mb-1" for="inputFirstName">Codigo
+																	del equipo</label> <input class="form-control py-4"
+																	id="codigo" type="text" th:field="*{serial}"
+																	placeholder="Ingrese El Codigo del Equipo" />
+																	<div th:if="${existe!=null}" th:text="${existe}" class="text-danger"></div>
+																	 <div class="text-danger" th:if="${#fields.hasErrors('serial')}" th:errors="*{serial}"></div>
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="small mb-1" for="inputLastName">Color
+																	del Equipo</label> <input class="form-control py-4"
+																	id="Codigoequipo" type="text" th:field="*{color}"
+																	placeholder="Ingrese el Color del Equipo" />
+																	
+																	 <div class="text-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
+															</div>
+														</div>
+													</div>
+
+													<div class="form-row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="small mb-1" for="marcas">Tipo equipo</label>
+																<select class="form-control form-control-sm" name="tipoEquipo">
+																	<option th:each="tipo :${tipos}" th:value="${tipo.idTipo}" th:text="${tipo.nombre}">Si</option>
+																</select>
+															</div>
+															<div class="alert alert-danger" th:if="${tip!=null}" th:text="${tip}"></div>
+														</div>
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="small mb-1" for="inputLastName">Donado</label>
+																<select class="form-control form-control-sm" name="donado">
+																	<option value="-1">Seleccionar</option>
+																	<option value="1">Si</option>
+																	<option value="0">No</option>
+																</select>
+															</div>
+														</div>
+													</div>
+
+													<div class="form-row">
+														<div class="col-md-6">
+															<div class="form-group">
+																<label class="small mb-1" for="inputFirstName">Precio</label>
+																<input class="form-control py-4" id="Responsable"
+																	type="number" placeholder="Ingrese el Precio" th:field="*{precio}" min="0" />
+																	
+																	<div class="alert alert-danger" th:if="${price!=null}" th:text="${price}"></div>
+															</div>
+														</div>
+														<div sec:authorize="hasRole('ROLE_ADMIN')" class="col-md-6">
+															<div class="form-group">
+																<label class="small mb-1" for="inputLastName">Responsable</label>
+																<input list="lista" class="form-control py-4"
+																	name="responsables" id="responsables">
+
+																<datalist sec:authorize="hasRole('ROLE_ADMIN')" id="lista" >
+																	<option th:each="u :${usuarios}" th:if="${u.rol.equals('ROLE_USER')}" th:value="${u.cedula}">
+																</datalist></div>
+																
+																<div class="alert alert-danger" th:if="${user!=null}" th:text="${user}"></div>
+															</div>
+															<div class="col-md-6">
+															<div class="form-group" sec:authorize="hasRole('ROLE_USUARIO')">
+																<label class="small mb-1" for="archivo">Foto</label>
+																<input type="file" class="form-control mb-3"
+																	name="archivo" id="archivo">
+																	<div th:if="${arch!=null}" th:text="${arch}" class="alert alert-danger"></div>
+															</div>
+															</div>
+															
+																
+															
+														</div>
+													</div>
+													
+													<div sec:authorize="hasRole('ROLE_ADMIN')" class="form-row">
+													<div class="col-md-12">
+														<label class="small mb-1" for="archivo">Foto</label>
+																<input type="file" class="form-control mb-3"
+																	name="archivo" id="archivo"></div>
+																	
+																	<div th:if="${arch!=null}" th:text="${arch}" class="alert alert-danger"></div>
+													</div>
+
+													<div class="row">
+														<div class="col-md-6">
+														<input type="submit" class="btn btn-primary btn-block" value="Registrar">
+															
+														</div>
+														<div class="col-md-6">
+															<a class="btn btn-danger btn-block" th:href="@{${url==null}? '/admin/':'/usuario/'}">Cancelar</a>
+														</div>
+													</div>
+
+
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</main>
+					</div>
+
+				</div>
+
+			</main>
+			<div id="layoutAuthentication_footer">
+				<footer class="py-4 bg-light mt-auto">
+					<div class="container-fluid">
+						<div
+							class="d-flex align-items-center justify-content-between small">
+							<div class="text-muted">Copyright &copy; Fundacion 2021</div>
+							<div>
+								<a href="#">Privacy Policy</a> &middot; <a href="#">Terms
+									&amp; Conditions</a>
+							</div>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head th:replace="layout/head :: head">
+        </head>
+    <body class="sb-nav-fixed">
+         <nav th:replace="layout/nav :: nav-bar"></nav>
+        <div id="layoutSidenav">
+            <div  sec:authorize="hasRole('ROLE_ADMIN')" th:replace="layout/sidebar :: sidebar"> 
+            </div>
+            
+             <div sec:authorize="hasRole('ROLE_USUARIO')" th:replace="layout/sidebar :: sidebaruser"> 
+            </div>
+            
+            <div id="layoutSidenav_content">
+           			<div class="alert alert-success" th:if="${mensaje!=null}" th:text="${mensaje}"></div>
+                    <div class="alert alert-danger" th:if="${error!=null}" th:text="${error}"></div>
+            	 <main sec:authorize="hasRole('ROLE_USUARIO')" >
+                    <div class="container-fluid">
+                        <h1 class="mt-4">Bienvenido Usuario</h1>
+                    <br>
+                    <p><h2>En la parte izquierda encontrara una opcion llamada "Equipos a cargo" donde podra conocer todos los equipos que tiene bajo su responsabilidad</h2><br>
+                    <h3>Si tiene algun problema con algun equipo de los que tiene a cargo no trate de arreglarlo por su cuenta, envie un email al administrador para que el realice el proceso de enviar a mantenimiento o en dado caso que aplique la garantia.</h3><br>
+                    
+                    <h4>-Recuerde que si el equipo es mojado, golpeado, o el daño esta fuera de la garantia el usuario a cargo debera correr con los gastos de reparacion.</h4><br><br>
+
+                    Si tiene alguna duda o algo no funciona de manera correcta no olvide contactar con soporte. <br>
+                    <b>Telefono:</b>3221112224 <br>
+                    <b>Email:</b>Soporte@ufps.edu.co <br>
+                    </p>
+                    </div>
+
+                </main>
+            
+                <main sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="container-fluid">
+                    
+                        <h1 class="mt-4">Bienvenido al panel del Administrador</h1>
+                    <br>
+                    <p><h2>Bienvenido administrador en la parte izquierda encontrara su panel de administracion donde puede Registrar un Equipo o Consultar un equipo.</h2><br>
+                    <h3>-Si lo que desea es Registrar un Equipo no olvide Seguir los siguientes lineamientos:</h3><br>
+                    <b>*Responsable del equipo:</b> Aqui debe ir el nombre de la persona que quedara encargada de manejar el equipo.<br>
+                    <b>*Codigo del equipo:</b> Aqui debe ingresar el Codigo unico asignado para el equipo.<br>
+                    <b>*Cedula del responsable:</b> Aqui debe ir el numero de cedula de la persona que quedara encargada de manejar el equipo.<br>
+                    <b>*Nombre del equipo:</b> Aqui debe ir el nombre del equipo, ejemplo: Impresora EPSON L360.<br>
+                    <b>*Email del responsable:</b> Aqui debe ir el EMAIL de la persona que quedara encargada de manejar el equipo.<br>
+                    <b>*Estado del equipo:</b> Aqui solamente debera digitar Disponible o No Disponible para saber el estado del equipo.<br>
+                    <br>
+                    Una vez diligenciado el formulario de manera correcta presiona en el boton <b>Registrar equipo</b> y listo ya quedo el equipo registrado en la base de datos de la fundacion.
+                    <br>
+                    <br>
+                    <h3>-Si lo que desea es Buscar un Equipo no olvide Seguir los siguientes lineamientos:</h3><br>
+                    En la pantalla le apareceran algunos de los equipos ya registrados, pero si lo que quiere es buscar algun equipo en especifico puede usar la barra de buscar y realizar una busqueda mediante el <b>codigo de equipo</b>.<br>
+                    <br>
+                    Si tiene alguna duda o algo no funciona de manera correcta no olvide contactar con soporte. <br>
+                    <b>Telefono:</b>3221112224 <br>
+                    <b>Email:</b>Soporte@ufps.edu.co <br>
+                    </p>
+                    </div>
+
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Fundacion 2021</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="../js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+    </body>
+</html>
