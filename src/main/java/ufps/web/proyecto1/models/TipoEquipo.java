@@ -1,32 +1,38 @@
 package ufps.web.proyecto1.models;
 
 import java.io.Serializable;
-import javax.persistence.*;
-
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * The persistent class for the tipo_equipo database table.
  * 
  */
 @Entity
-@Table(name="tipo_equipo")
-@NamedQuery(name="TipoEquipo.findAll", query="SELECT t FROM TipoEquipo t")
+@Table(name = "tipo_equipo")
+@NamedQuery(name = "TipoEquipo.findAll", query = "SELECT t FROM TipoEquipo t")
 public class TipoEquipo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_tipo")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_tipo")
 	private int idTipo;
 
 	private String descripcions;
 
 	private String nombre;
 
-	//bi-directional many-to-one association to Equipo
-	@OneToMany(mappedBy="tipoEquipo")
+	// bi-directional many-to-one association to Equipo
+	@OneToMany(mappedBy = "tipoEquipo")
 	private List<Equipo> equipos;
 
 	public TipoEquipo() {

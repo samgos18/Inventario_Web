@@ -1,6 +1,5 @@
 package ufps.web.proyecto1.models;
 
-
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -11,8 +10,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="marcas")
-@NamedQuery(name="Marca.findAll", query="SELECT m FROM Marca m")
+@Table(name = "marcas")
+@NamedQuery(name = "Marca.findAll", query = "SELECT m FROM Marca m")
 public class Marca implements Serializable {
 
 	/**
@@ -23,20 +22,24 @@ public class Marca implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String nombre;
-	
-	public Marca() {}
+
+	public Marca() {
+	}
+
 	public int getId() {
 		return id;
 	}
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	
+
 }

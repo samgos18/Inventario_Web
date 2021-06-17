@@ -20,7 +20,7 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Registrar Usuario</h3></div>
                                     <div class="card-body">
-                                        <form th:action="@{'/admin/registrar-usuario'}" th:object="${usuario}" method="post">
+                                        <form th:action="@{'/admin/'+${url}}" th:object="${usuario}" method="post">
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -29,6 +29,7 @@
                                                      <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
                                                     </div>
                                                 </div>
+                                               
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="inputLastName">apellidos</label>
@@ -55,7 +56,7 @@
                                             </div>
 
                                             <div class="form-row">
-                                                <div class="col-md-6">
+                                                <div th:class="${(edit!=null)?'d-none':'col-md-6'}">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="inputFirstName">password</label>
                                                         <input class="form-control py-4" id="Responsable" th:field="*{password}" type="text" placeholder="Ingrese la contraseña" />
@@ -63,7 +64,11 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="col-md-6">
+                                                <div th:if="${edit!=null}">
+                                                <input type="hidden" th:field="*{password}">
+                                                
+                                                </div>
+                                                <div th:class="${(edit!=null)? 'col-md-12':'col-md-6'}">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="inputFirstName">telefono</label>
                                                         <input class="form-control py-4" id="Responsable" type="text" th:field="*{telefono}" placeholder="Ingrese  el numero telefonico" />
@@ -84,8 +89,8 @@
                                            		<div class="col-md-6">
 														<label class="small mb-1" for="inputFirstName">ROL</label>
                                                         <select class="form-control" th:field="*{rol}">
-                                                        <option value="ROLE_ADMIN">ADMINISTRADOR</option>
-                                                        <option value="ROLE_USUARIO">USUARIO</option>
+                                                        <option  value="ROLE_ADMIN">ADMINISTRADOR</option>
+                                                        <option th:selected="${usuario.rol != null && usuario.rol.equals('ROLE_USUARIO') }" value="ROLE_USUARIO">USUARIO</option>
                                                         </select>
                                            	</div>
                                             

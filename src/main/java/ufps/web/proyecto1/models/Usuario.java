@@ -1,20 +1,22 @@
 package ufps.web.proyecto1.models;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 /**
  * The persistent class for the usuario database table.
  * 
  */
 @Entity
-@NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u")
+@NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -30,13 +32,13 @@ public class Usuario implements Serializable {
 
 	@NotBlank(message = "el email nombe ser vacio")
 	@Email(message = "Debe ser de tipo email")
+	@Column(unique = true)
 	private String email;
 
 	@NotBlank(message = "el nombre no puede ser vacio")
 	private String nombre;
 
 	@NotBlank(message = "el password no debe ser vacio")
-	@Size(min = 5,message = "La antidad minima de caracteres debe ser de 5")
 	private String password;
 
 	private String rol;
@@ -46,8 +48,8 @@ public class Usuario implements Serializable {
 
 	private String token;
 
-	//bi-directional many-to-one association to Equipo
-	@OneToMany(mappedBy="usuario")
+	// bi-directional many-to-one association to Equipo
+	@OneToMany(mappedBy = "usuario")
 	private List<Equipo> equipos;
 
 	public Usuario() {

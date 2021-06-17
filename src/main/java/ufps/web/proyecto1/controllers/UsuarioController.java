@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufps.web.proyecto1.dao.IEquipoDao;
+import ufps.web.proyecto1.dao.IUsuarioDao;
 import ufps.web.proyecto1.models.Equipo;
 import ufps.web.proyecto1.models.Marca;
 import ufps.web.proyecto1.models.TipoEquipo;
@@ -31,7 +34,8 @@ public class UsuarioController {
 	
 	@Autowired
 	IUsuario service;
-	
+	@Autowired
+	IEquipoDao equipoDao;
 	@Autowired
 	IUploadService upload;
 	
@@ -41,7 +45,18 @@ public String listarMisEquipos(Model model,Authentication auth) {
 	Usuario user=service.findById(auth.getName());
 	model.addAttribute("nombre", (user.getNombre()+" "+user.getApellido()).toUpperCase());
 	model.addAttribute("titulo", "Mis equipos");
-	model.addAttribute("equipos", this.service.findAllEquipoByResponsable(auth.getName()));
+	model.addAttribute("role", "usuario");
+	model.addAttribute("equipos", this.service.findAllEquipoByResponsable(auth.getName(), false));
+	return "admin/consultar";
+}
+
+@GetMapping("/buscar-by-serial")
+public String buscarByserial(@RequestParam String serial,Model model, Authentication auth) {
+	Usuario user=this.service.findById(auth.getName());
+	
+	model.addAttribute("nombre", (user.getNombre()+" "+user.getApellido()).toUpperCase());
+	model.addAttribute("equ", this.equipoDao.listarByResponsableAndBajaAndId(auth.getName(), serial));
+	model.addAttribute("role", "usuario");
 	return "admin/consultar";
 }
 
@@ -168,5 +183,19 @@ public String guardarEquipo(@Valid Equipo equipo,BindingResult result,Authentica
 	flash.addFlashAttribute("mensaje", "equipo agregado correctamente");
 	return "redirect:/usuario";
 }
+
+@GetMapping("/solicitar-baja/{idEquipo}")
+public String darBaja(@PathVariable String idEquipo,RedirectAttributes flash) {
+	Equipo equipo=this.service.findEquipoById(idEquipo);
+	if(equipo==null) {
+		flash.addFlashAttribute("error", "el quipo no existe");
+		return "redirect:/usuario/";
+	}
+	
+	equipo.setBajaSolicitada(true);
+	this.service.saveEquipo(equipo);
+	return "redirect:/usuario/listar";
+}
+
 
 }

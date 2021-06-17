@@ -9,5 +9,5 @@ public interface IMarcaDao extends CrudRepository<Marca, Integer> {
 
 	@Query("select m from Marca m where m.nombre=?1")
 	public Marca findByNombre(String nombre);
-	
+
 }

@@ -1,19 +1,24 @@
 package ufps.web.proyecto1.models;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 /**
  * The persistent class for the equipo database table.
  * 
  */
 @Entity
-@NamedQuery(name="Equipo.findAll", query="SELECT e FROM Equipo e")
+@NamedQuery(name = "Equipo.findAll", query = "SELECT e FROM Equipo e")
 public class Equipo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,10 +31,17 @@ public class Equipo implements Serializable {
 
 	private byte donado;
 
+	private boolean bajaSolicitada;
+
+	private boolean bajaAceptada;
+
+	@Temporal(TemporalType.DATE)
+	private Date fechaBaja;
+
 	private boolean disponible;
-	
+
 	private String foto;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 
@@ -41,45 +53,59 @@ public class Equipo implements Serializable {
 
 	@Min(value = 0)
 	private int precio;
-	
-	//bi-directional many-to-one association to Usuario
+
+	// bi-directional many-to-one association to Usuario
 	@ManyToOne
-	@JoinColumn(name="id_usuario")
+	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 
-	//bi-directional many-to-one association to TipoEquipo
+	// bi-directional many-to-one association to TipoEquipo
 	@ManyToOne
-	@JoinColumn(name="id_tipo_equipo")
+	@JoinColumn(name = "id_tipo_equipo")
 	private TipoEquipo tipoEquipo;
 
 	public Equipo() {
 	}
 
-	
-	
 	public boolean isDisponible() {
 		return disponible;
 	}
 
+	public boolean isBajaSolicitada() {
+		return bajaSolicitada;
+	}
 
+	public boolean isBajaAceptada() {
+		return bajaAceptada;
+	}
+
+	public Date getFechaBaja() {
+		return fechaBaja;
+	}
+
+	public void setBajaSolicitada(boolean bajaSolicitada) {
+		this.bajaSolicitada = bajaSolicitada;
+	}
+
+	public void setBajaAceptada(boolean bajaAceptada) {
+		this.bajaAceptada = bajaAceptada;
+	}
+
+	public void setFechaBaja(Date fechaBaja) {
+		this.fechaBaja = fechaBaja;
+	}
 
 	public String getFoto() {
 		return foto;
 	}
 
-
-
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
 	}
 
-
-
 	public void setFoto(String foto) {
-		this.foto= foto;
+		this.foto = foto;
 	}
-
-
 
 	public String getSerial() {
 		return this.serial;

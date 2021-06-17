@@ -15,29 +15,29 @@ import ufps.web.proyecto1.models.TipoEquipo;
 import ufps.web.proyecto1.models.Usuario;
 
 @Service
-public class UsuarioImplement implements IUsuario{
+public class UsuarioImplement implements IUsuario {
 
 	@Autowired
 	IUsuarioDao user;
-	
+
 	@Autowired
 	IMarcaDao marca;
-	
-	@Autowired 
+
+	@Autowired
 	ITipoEquipoDao tipo;
-	
+
 	@Autowired
 	IEquipoDao equipo;
-	
+
 	@Override
 	public Usuario findById(String id) {
-		
+
 		return user.findById(id).orElse(null);
 	}
 
 	@Override
 	public Usuario save(Usuario user) {
-		
+
 		return this.user.save(user);
 	}
 
@@ -49,19 +49,18 @@ public class UsuarioImplement implements IUsuario{
 		} catch (Exception e) {
 			return false;
 		}
-		
-		
+
 	}
 
 	@Override
 	public List<Usuario> findAll() {
 		// TODO Auto-generated method stub
-		return (List<Usuario>)user.findAll();
+		return (List<Usuario>) user.findAll();
 	}
 
 	@Override
 	public List<Marca> findAllMarcas() {
-		return (List<Marca>)this.marca.findAll();
+		return (List<Marca>) this.marca.findAll();
 	}
 
 	@Override
@@ -96,13 +95,13 @@ public class UsuarioImplement implements IUsuario{
 	@Override
 	public List<Equipo> findAllEquipo() {
 		// TODO Auto-generated method stub
-		return (List<Equipo>)this.equipo.findAll();
+		return (List<Equipo>) this.equipo.findAll();
 	}
 
 	@Override
-	public List<Equipo> findAllEquipoByResponsable(String cedula) {
+	public List<Equipo> findAllEquipoByResponsable(String cedula, boolean baja) {
 		// TODO Auto-generated method stub
-		return this.equipo.listarByResponsable(cedula);
+		return this.equipo.listarByResponsableAndBaja(cedula, baja);
 	}
 
 }

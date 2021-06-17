@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
+
+
+	
 	@GetMapping({"/login","","/"})
 	public String login (Principal principal,Authentication auth) {
 		
@@ -34,5 +37,7 @@ public class LoginController {
 		
 		return "registrarse";
 	}
+	
+
 	
 }
